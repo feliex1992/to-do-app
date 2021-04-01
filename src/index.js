@@ -1,13 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { icons } from './assets/icons'
+import { icons } from './assets/icons';
+import App from './App';
 
 React.icons = icons
 
-console.log(a);
-
-var a = "test";
-
-ReactDOM.render(<div>
-  <h1>React App</h1>
-</div>, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
