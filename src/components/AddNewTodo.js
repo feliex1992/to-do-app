@@ -70,7 +70,7 @@ class AddNewTodo extends React.Component {
             <CCardHeader>
               <CNavbar expandable="sm" >
                 <CNavbarBrand>
-                  <h1>Todo List</h1>
+                  <h1>Todo App</h1>
                 </CNavbarBrand>
                 <CCollapse show={false} navbar>
                   <CNavbarNav className="ml-auto">

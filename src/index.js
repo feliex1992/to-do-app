@@ -1,6 +1,7 @@
+import 'regenerator-runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import 'regenerator-runtime';
+import './reg-sw';
 import { icons } from './assets/icons';
 import App from './App';
 

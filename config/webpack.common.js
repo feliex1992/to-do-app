@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
+const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 module.exports = {
   entry: './src/index.js',
@@ -43,11 +44,37 @@ module.exports = {
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: "public/favicon.ico", to: "favicon.ico" }
+        { from: 'public/favicon.ico', to: 'favicon.ico' },
+        { from: 'public/service-worker.js', to: 'service-worker.js' }
       ]
     }),
     new InterpolateHtmlPlugin({
-      PUBLIC_URL: '' // can modify `static` to another name or get it from `process`
+      PUBLIC_URL: ''
+    }),
+    new WebpackPwaManifest({
+      name: "Todo App",
+      short_name: "Todo App",
+      description: "List your planing don't miss a litle thing.",
+      start_url: "/index.html",
+      display: "standalone",
+      background_color: "#321fdb",
+      theme_color: "#321fdb",
+      fingerprints: false,
+      publicPath: '.',
+      icons: [
+        {
+          src: path.resolve("src/img/icon-512.png"),
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any maskable"
+        },
+        {
+          src: path.resolve("src/img/icon-192.png"),
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any maskable"
+        }
+      ]
     })
   ]
 }
