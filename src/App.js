@@ -1,29 +1,55 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import './scss/style.scss';
+import BaseComponent from './BaseComponent';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
-const Home = React.lazy(() => import('./pages/Home'));
-const Login = React.lazy(() => import('./pages/Login'));
+import userStore from './store/user';
+import todosStore from './store/todos';
 
-const loading = (
-  <div className="pt-3 text-center">
-    <div className="sk-spinner sk-spinner-pulse"></div>
-  </div>
-);
+window.userStore = userStore;
+window.todosStore = todosStore;
 
-class App extends React.Component {
+export default class App extends BaseComponent {
+  state = {
+    isInitialized: false,
+  }
+
   render() {
+    console.log('Init: ', userStore.data.email, " ", !this.state.isInitialized);
+    if (!this.state.isInitialized) {
+      return null;
+    }
+
     return (
-      <BrowserRouter>
-        <React.Suspense fallback={loading}>
-          <Switch>
-            <Route exact path='/' name="Home Page" render={props => <Home {...props}/>} />
-            <Route exact path='/login' name="Login Page" render={props => <Login {...props}/>} />
-          </Switch>
-        </React.Suspense>
-      </BrowserRouter>
+      userStore.data.email ? (
+        <Home />
+      ) : (
+        <Login />
+      )
     );
   }
-}
 
-export default App;
+  async componentDidMount() {
+    await userStore.initialize();
+    this.setState({
+      isInitialized: true,
+    });
+
+    this.unsubUser = userStore.subscribe(this.rerender);
+  }
+
+  async componentDidUpdate() {
+    if (userStore.data.email && !todosStore.isInitialized) {
+      console.log('popup initialize all offline data...');
+      console.log("set name: ", userStore.data.id);
+      todosStore.setName(userStore.data.id);
+      await todosStore.initialize();
+      console.log('popup done');
+    }
+  }
+ 
+  componentWillUnmount() {
+    this.unsubUser();
+  }
+}

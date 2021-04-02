@@ -1,15 +1,28 @@
 import React from 'react';
+import BaseComponent from '../BaseComponent';
 
-const AddNewTodo = React.lazy(() => import('../components/AddNewTodo'));
-const TodoList = React.lazy(() => import('../components/TodoList'));
+import userStore from '../store/user';
 
-const Home = () => {
-  return (
-    <div>
-      <AddNewTodo />
-      <TodoList />
-    </div>
-  );
+import AddNewTodo  from '../components/AddNewTodo';
+import TodoList from '../components/TodoList';
+
+class Home extends BaseComponent {
+  componentDidMount() {
+    this.unsubTodos = todosStore.subscribe(this.rerender);
+  }
+
+  componentWillUnmount() {
+    this.unsubTodos();
+  }
+
+  render() {
+    return (
+      <div>
+        <AddNewTodo />
+        <TodoList />
+      </div>
+    )
+  }
 }
 
 export default Home;
