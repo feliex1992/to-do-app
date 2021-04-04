@@ -16,6 +16,7 @@ This is link for production view: https://feliex1992.github.io/
 * ```cd``` into the root folder
 * Run server for development by ```npm start``` command and web app will be automaticaly open in browser.
 * To build for production by ```npm run build```.
+* In login page, use email gmail for access app.
 
 ## Capability
 
