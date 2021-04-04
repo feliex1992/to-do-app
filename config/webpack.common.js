@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -37,6 +38,7 @@ module.exports = {
     hot: true
   },
   plugins: [
+    new Dotenv(),
     new CleanWebpackPlugin(),
     new HtmlWebpckPlugin({
       template: './public/index.html',
