@@ -16,9 +16,8 @@ import {
 import TodoItem from './TodoItem';
 
 const TodoList = () => {
-  const [showDone, toggleShowDone] = useState(false)
-  const showTodos = todosStore.data.filter((todo) => todo.statDone === showDone)
-  
+  const [showDone, toggleShowDone] = useState(false);
+  const showTodos = todosStore.data.filter((todo) => todo.statDone === showDone);
   return (
     <CContainer>
       <CCard>
@@ -38,7 +37,9 @@ const TodoList = () => {
           <CListGroup>
             {
               showTodos.map((todo, index) => (
-                <TodoItem key={index} {...todo} no_task={index + 1}  />
+                <div key={index}>
+                  <TodoItem key={index} {...todo} no_task={index + 1}  />
+                </div>
               ))
             }
           </CListGroup>

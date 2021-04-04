@@ -44,7 +44,6 @@ class Login extends BaseComponent {
       id,
       email: this.state.email,
     });
-    console.log("cek email: ", userStore.data.email)
   }
   
   setEmail = (e) => {

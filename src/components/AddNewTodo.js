@@ -20,14 +20,27 @@ import {
   CInputGroupText,
   CNavbar,
   CNavbarBrand,
-  CNavbarNav
+  CNavbarNav,
 } from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 
 class AddNewTodo extends React.Component {
   state = {
-    input_text: ''
+    input_text: '',
+    tags: [],
+    todos: []
   };
+
+  constructor(props) {
+    super(props);
+  }
+
+  syncData = async () => {
+    const todos = await todosStore.getTodos();
+    this.setState({
+      todos
+    });
+  }
 
   upload = async () => {
     console.log('uploading...');
@@ -46,14 +59,30 @@ class AddNewTodo extends React.Component {
     });
   }
 
+  setInput_tags = (e) => {
+    let tags;
+    if (e.target.value.trim().length > 0) {
+      tags = e.target.value.split(',').map(t => t);
+    } else {
+      tags = [];
+    }
+
+    this.setState({
+      tags
+    })
+  }
+
   addTodo = async (e) => {
     e.preventDefault();
     await todosStore.addItem({
       text: this.state.input_text,
+      tags: this.state.tags.map(t => t.trim().toLowerCase()),
       statDone: false
     }, userStore.data);
-    this.setState({ input_text: '' });
-    console.log(userStore.data);
+    this.setState({ 
+      input_text: '',
+      tags: ''
+    });
   }
 
   logout = async () => {
@@ -92,18 +121,25 @@ class AddNewTodo extends React.Component {
               </CNavbar>
             </CCardHeader>
             <CCardBody>
+
               <CInputGroup>
                 <CInputGroupPrepend>
                   <CInputGroupText><CIcon name="cil-asterisk" /></CInputGroupText>
                 </CInputGroupPrepend>
-                <CInput type="text" size="lg" id="todo-add" name="todo-add" placeholder="Todo" onChange={this.setInput_text} value={this.state.input_text} />
-                <CInputGroupPrepend>
-                  <CButton onClick={this.addTodo} size="lg" color="success">Submit</CButton>
-                </CInputGroupPrepend>
+                <CInput type="text" size="lg" id="todo-add" name="todo-add" placeholder="Content" onChange={this.setInput_text} value={this.state.input_text} />
               </CInputGroup>
+
+              <CInputGroup className="mt-2">
+                <CInputGroupPrepend>
+                  <CInputGroupText><CIcon name="cil-asterisk" /></CInputGroupText>
+                </CInputGroupPrepend>
+                <CInput type="text" size="lg" id="todo-add-tags" name="todo-add-tags" placeholder="Tags (seperate with commas)." onChange={this.setInput_tags} value={this.state.tags.join()} />
+                <CButton className="ml-2" onClick={this.addTodo} size="lg" color="success">Submit</CButton>
+              </CInputGroup>
+
               <CInputGroup>
                 <h3 className="mt-4 mr-3">Todos:</h3>
-                <CButton className="mt-3" size="lg" color="warning" onClick={this.upload}>Upload ({todosStore.countUnuploadeds()})</CButton>
+                <CButton className="mt-3 mr-3" size="lg" color="warning" onClick={this.upload}>Upload ({todosStore.countUnuploadeds()})</CButton>
               </CInputGroup>
             </CCardBody>
           </CCard>

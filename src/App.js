@@ -42,7 +42,6 @@ export default class App extends BaseComponent {
   async componentDidUpdate() {
     if (userStore.data.email && !todosStore.isInitialized) {
       console.log('popup initialize all offline data...');
-      console.log("set name: ", userStore.data.id);
       todosStore.setName(userStore.data.id);
       await todosStore.initialize();
       console.log('popup done');

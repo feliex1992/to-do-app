@@ -33,6 +33,42 @@ class TodosStore extends PouchyStore {
       return 0;
     });
   }
+
+  async sync() {
+    try {
+      await this.upload();
+      return Promise.resolve(true);
+    } catch(e) {
+      console.log('Sync failed due to conenction issue.');
+      return Promise.resolve(false);
+    }
+  }
+
+  async getTodos() {
+    const todos = await this.fetchData();
+
+    return Promise.resolve(todos.sort((todoA, todoB) => {
+      return new Date(todoA.createdAt) - new Date(todoB.createdAt);
+    }));
+  }
+
+  async fetchData(options = {}) {
+    const res = await this.dbLocal.changes({
+      live: false,
+      include_docs: true,
+      ...options,
+    });
+
+    const data = [];
+    for (const result of res.results) {
+      const doc = result.doc;
+      if (doc._deleted) continue;
+      if (doc.deletedAt) continue;
+      data.push(doc);
+    }
+
+    return data;
+  }
 }
 
 export default new TodosStore();
