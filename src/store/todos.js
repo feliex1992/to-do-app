@@ -10,7 +10,7 @@ class TodosStore extends PouchyStore {
   }
 
   get urlRemote() {
-    console.log(process.env.COUCH_URL);
+    console.log("URL");
     return process.env.COUCH_URL;
   }
 

@@ -7,7 +7,7 @@ if (workbox) {
 }
 
 workbox.precaching.precacheAndRoute([
-  { url: '/bundle.js', revision: '1' },
+  { url: '/bundle.js', revision: '2' },
   { url: '/index.html', revision: '1' },
   { url: '/favicon.ico', revision: '1' },
   { url: '/icon_192x192.png', revision: '1' },
