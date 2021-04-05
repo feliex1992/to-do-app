@@ -133,7 +133,7 @@ class AddNewTodo extends React.Component {
                 <CInputGroupPrepend>
                   <CInputGroupText><CIcon name="cil-asterisk" /></CInputGroupText>
                 </CInputGroupPrepend>
-                <CInput type="text" size="lg" id="todo-add-tags" name="todo-add-tags" placeholder="Tags (seperate with commas)." onChange={this.setInput_tags} value={this.state.tags.join()} />
+                <CInput type="text" size="lg" id="todo-add-tags" name="todo-add-tags" placeholder="Tags (seperate with commas)." onChange={this.setInput_tags} value={this.state.tags} />
                 <CButton className="ml-2" onClick={this.addTodo} size="lg" color="success">Submit</CButton>
               </CInputGroup>
 

@@ -46,7 +46,7 @@ const TodoItem = (props) => {
         {(modeEdit? (<CInput type="text" id="todo-add" name="todo-add" placeholder="Content" onChange={(e) => setText(e.target.value)} value={text} />) : props.text)}
       </div>
       <div className="d-flex w-100 justify-content-between mt-3">
-        {(modeEdit? (<CInput type="text" id="todo-add-tags" name="todo-add-tags" placeholder="Tags" onChange={(e) => setTags(e.target.value)} value={strTags} />) : props.tags.join(', '))}
+        {(modeEdit? (<CInput type="text" id="todo-add-tags" name="todo-add-tags" placeholder="Tags" onChange={(e) => setTags(e.target.value)} value={strTags} />) : <div>{props.tags.join(', ')}</div>)}
         <CButtonGroup className="sm-12">
           <CButton disabled={(props.statDone || modeEdit)} color="success" onClick={() => updateTodo(props._id) }>Done</CButton>
           <CButton disabled={props.statDone} color="warning" onClick={editTodo}>{(modeEdit ? 'Simpan': 'Update')}</CButton>
